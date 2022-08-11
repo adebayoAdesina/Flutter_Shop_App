@@ -15,7 +15,7 @@ class ProductOviewViewScreen extends StatelessWidget {
           itemCount: products.length,
           gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
             maxCrossAxisExtent: 300.0,
-            childAspectRatio: 1,
+            childAspectRatio: 2.5 / 2,
             crossAxisSpacing: 20.0,
             mainAxisSpacing: 20.0,
           ),

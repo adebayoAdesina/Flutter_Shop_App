@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_app/models/product_model.dart';
+import 'package:shop_app/utils/color.dart';
 
 class ProductCard extends StatelessWidget {
   final Product product;
@@ -15,6 +16,35 @@ class ProductCard extends StatelessWidget {
           child: CircularProgressIndicator(),
         ),
         imageUrl: product.imageUrl.toString(),
+      ),
+      footer: ClipRRect(
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(
+            20,
+          ),
+          topRight: Radius.circular(
+            20,
+          ),
+        ),
+        child: GridTileBar(
+          backgroundColor: kGridTileBarColor,
+          leading: IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.favorite),
+          ),
+          title: Text(
+            product.title.toString(),
+            textAlign: TextAlign.center,
+          ),
+          subtitle: Text(
+            '\$ ${product.price}',
+            textAlign: TextAlign.center,
+          ),
+          trailing: IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.shopping_bag),
+          ),
+        ),
       ),
     );
   }
