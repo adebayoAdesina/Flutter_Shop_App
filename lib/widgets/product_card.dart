@@ -58,7 +58,7 @@ class ProductCard extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               trailing: IconButton(
-                onPressed: () => cart.addItem(id as String, price, title),
+                onPressed: () => cart.addItem(id.toString(), price, title),
                 icon: const Icon(Icons.shopping_bag),
               ),
             ),

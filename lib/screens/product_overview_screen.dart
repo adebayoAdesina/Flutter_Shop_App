@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/providers/cart.dart';
+import 'package:shop_app/screens/cart_screen.dart';
 import 'package:shop_app/widgets/badge.dart';
 
 import '../providers/appdata.dart';
@@ -44,7 +45,7 @@ class ProductOviewViewScreen extends StatelessWidget {
           ),
           Badge(
               child:
-                  IconButton(onPressed: () {}, icon: Icon(Icons.shopping_cart)),
+                  IconButton(onPressed: () => Navigator.pushNamed(context, CartScreen.id), icon: Icon(Icons.shopping_cart)),
               value: context.watch<Cart>().total),
           const SizedBox(
             width: 10,
