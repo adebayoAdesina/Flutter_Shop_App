@@ -19,10 +19,19 @@ class CartCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dismissible(
+      direction: DismissDirection.endToStart,
       key: Key(id),
-      onDismissed: (d) => context.read<Cart>().removeCart(id),
+      onDismissed: (_) => context.read<Cart>().removeCart(id),
       background: Container(
         color: Theme.of(context).colorScheme.error,
+        child: const Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Icon(
+            Icons.delete,
+            color: kWhiteColor,
+          ),
+        ),
+        alignment: Alignment.centerRight,
       ),
       child: Card(
         margin: const EdgeInsets.symmetric(

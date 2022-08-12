@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/providers/cart.dart';
+import 'package:shop_app/providers/orders.dart';
+import 'package:shop_app/screens/order_screen.dart';
 import 'package:shop_app/widgets/cart_card.dart';
 
 class CartScreen extends StatelessWidget {
@@ -61,12 +63,17 @@ class CartScreen extends StatelessWidget {
             ),
           ),
           TextButton(
-            child: Text(
-              'Order Now',
-              style: TextStyle(color: Theme.of(context).colorScheme.secondary),
-            ),
-            onPressed: () {},
-          )
+              child: Text(
+                'Order Now',
+                style:
+                    TextStyle(color: Theme.of(context).colorScheme.secondary),
+              ),
+              onPressed: () {
+                context
+                    .read<Orders>()
+                    .orderNow(cart.cart!.values.toList(), cart.totalAmount);
+                Navigator.pushNamed(context, OrderScreen.id);
+              })
         ],
       ),
     );

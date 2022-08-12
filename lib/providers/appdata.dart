@@ -2,7 +2,7 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 
-import '../models/product_model.dart';
+import 'product_model.dart';
 
 enum Show {
   favorites,
