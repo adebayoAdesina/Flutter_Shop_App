@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/models/product_model.dart';
+import 'package:shop_app/providers/cart.dart';
 import 'package:shop_app/screens/product_detail_screen.dart';
 import 'package:shop_app/utils/color.dart';
 
@@ -18,6 +19,7 @@ class ProductCard extends StatelessWidget {
     final String title = product.title!;
     final double price = product.price!;
     final bool isFavorite = product.isFavorite;
+    final cart = context.read<Cart>();
     return ClipRRect(
       borderRadius: borderRadius(),
       child: InkWell(
@@ -56,7 +58,7 @@ class ProductCard extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               trailing: IconButton(
-                onPressed: () {},
+                onPressed: () => cart.addItem(id as String, price, title),
                 icon: const Icon(Icons.shopping_bag),
               ),
             ),

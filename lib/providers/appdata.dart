@@ -4,6 +4,11 @@ import 'package:flutter/material.dart';
 
 import '../models/product_model.dart';
 
+enum Show {
+  favorites,
+  showAll,
+}
+
 class AppData with ChangeNotifier {
   final List<Product> _products = [
     Product(
@@ -48,9 +53,22 @@ class AppData with ChangeNotifier {
     ),
   ];
 
-  Product findProductById (int id) {
+  Product findProductById(int id) {
     return _products.firstWhere((element) => element.id == id);
   }
 
-  UnmodifiableListView get products => UnmodifiableListView(_products);
+  bool _showFavorites = false;
+
+  UnmodifiableListView get products {
+    if (_showFavorites == true) {
+      return UnmodifiableListView(
+          _products.where((element) => element.isFavorite).toList());
+    }
+    return UnmodifiableListView(_products);
+  }
+
+  void show(Show show) {
+    show == Show.favorites ? _showFavorites = true : _showFavorites = false;
+    notifyListeners();
+  }
 }
