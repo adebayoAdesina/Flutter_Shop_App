@@ -1,23 +1,23 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shop_app/models/product_model.dart';
 import 'package:shop_app/screens/product_detail_screen.dart';
 import 'package:shop_app/utils/color.dart';
 
 class ProductCard extends StatelessWidget {
-  final int id;
-  final String imageUrl;
-  final String title;
-  final double price;
   const ProductCard({
     Key? key,
-    required this.id,
-    required this.imageUrl,
-    required this.title,
-    required this.price,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final product = context.watch<Product>();
+    final int id = product.id!;
+    final String imageUrl = product.imageUrl!;
+    final String title = product.title!;
+    final double price = product.price!;
+    final bool isFavorite = product.isFavorite;
     return ClipRRect(
       borderRadius: borderRadius(),
       child: InkWell(
@@ -39,8 +39,13 @@ class ProductCard extends StatelessWidget {
             child: GridTileBar(
               backgroundColor: kGridTileBarColor,
               leading: IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.favorite),
+                onPressed: () {
+                  context.read<Product>().toggleFavoriteStatus();
+                },
+                icon: Icon(
+                  Icons.favorite,
+                  color: isFavorite == true ? kSecondaryColor : kWhiteColor,
+                ),
               ),
               title: Text(
                 title,

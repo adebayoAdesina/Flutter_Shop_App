@@ -12,8 +12,7 @@ class ProductGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final readProvider = context.read<AppData>();
-    // final watchProvider = context.watch<AppData>();
+    final readProvider = context.watch<AppData>();
     return GridView.builder(
         itemCount: readProvider.products.length,
         gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
@@ -24,11 +23,9 @@ class ProductGrid extends StatelessWidget {
         ),
         itemBuilder: (context, index) {
           Product product = readProvider.products[index];
-          return ProductCard(
-            id: product.id as int,
-            imageUrl: product.imageUrl as String,
-            title: product.title as String,
-            price: product.price as double,
+          return ChangeNotifierProvider.value(
+            value: product,
+            builder: (context, child) => const ProductCard(),
           );
         });
   }

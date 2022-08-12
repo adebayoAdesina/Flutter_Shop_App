@@ -48,6 +48,9 @@ class AppData with ChangeNotifier {
     ),
   ];
 
+  Product findProductById (int id) {
+    return _products.firstWhere((element) => element.id == id);
+  }
 
   UnmodifiableListView get products => UnmodifiableListView(_products);
 }
