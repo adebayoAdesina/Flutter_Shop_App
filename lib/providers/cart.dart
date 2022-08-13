@@ -50,6 +50,9 @@ class Cart with ChangeNotifier {
     notifyListeners();
   }
 
+  // void removeCart(productId) {
+
+  // }
   void clearCart() {
     _cart = {};
     notifyListeners();

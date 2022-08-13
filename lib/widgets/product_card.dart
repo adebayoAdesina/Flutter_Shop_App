@@ -58,7 +58,24 @@ class ProductCard extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               trailing: IconButton(
-                onPressed: () => cart.addItem(id.toString(), price, title),
+                onPressed: () {
+                  cart.addItem(id.toString(), price, title);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        '$title added',
+                        softWrap: true,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      action: SnackBarAction(
+                        label: 'UNDO',
+                        onPressed: () => cart.removeCart(
+                          id.toString(),
+                        ),
+                      ),
+                    ),
+                  );
+                },
                 icon: const Icon(Icons.shopping_bag),
               ),
             ),
