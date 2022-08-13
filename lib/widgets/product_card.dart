@@ -60,6 +60,7 @@ class ProductCard extends StatelessWidget {
               trailing: IconButton(
                 onPressed: () {
                   cart.addItem(id.toString(), price, title);
+                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(

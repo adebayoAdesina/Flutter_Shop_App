@@ -4,9 +4,11 @@ import 'package:shop_app/providers/appdata.dart';
 import 'package:shop_app/providers/cart.dart';
 import 'package:shop_app/providers/orders.dart';
 import 'package:shop_app/screens/cart_screen.dart';
+import 'package:shop_app/screens/edit_product_screen.dart';
 import 'package:shop_app/screens/order_screen.dart';
 import 'package:shop_app/screens/product_detail_screen.dart';
 import 'package:shop_app/screens/product_overview_screen.dart';
+import 'package:shop_app/screens/user_product_scree.dart';
 
 import 'utils/color.dart';
 
@@ -57,7 +59,9 @@ class MyApp extends StatelessWidget {
               const ProductOviewViewScreen(),
           ProductDetailScreen.id: (context) => const ProductDetailScreen(),
           CartScreen.id: (context) => const CartScreen(),
-          OrderScreen.id: (context) => const OrderScreen()
+          OrderScreen.id: (context) => const OrderScreen(),
+          UserProduct.id: (context) => const UserProduct(),
+          EditProductScreen.id: (context) => const EditProductScreen(),
         },
       ),
     );
