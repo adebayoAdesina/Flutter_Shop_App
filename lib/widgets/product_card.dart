@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:shop_app/providers/product_model.dart';
 import 'package:shop_app/providers/cart.dart';
 import 'package:shop_app/screens/product_detail_screen.dart';
-import 'package:shop_app/utils/color.dart';
+import 'package:shop_app/constants/color.dart';
 
 class ProductCard extends StatelessWidget {
   const ProductCard({

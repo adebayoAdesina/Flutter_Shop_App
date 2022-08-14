@@ -29,8 +29,8 @@ class AppData with ChangeNotifier {
     ),
     Product(
       id: 3,
-      title: 'Blue Shirt',
-      description: 'A blue shirt',
+      title: 'Red Shirt',
+      description: 'A Red shirt',
       price: 58.80,
       imageUrl:
           'https://th.bing.com/th/id/R.a9ecb57dd4e13656eb01666e9666bf70?rik=KXDZJ7w1W%2b8mxg&pid=ImgRaw&r=0',
@@ -45,8 +45,8 @@ class AppData with ChangeNotifier {
     ),
     Product(
       id: 5,
-      title: 'Blue Shirt',
-      description: 'A blue shirt',
+      title: 'Brown Shirt',
+      description: 'A Brown shirt',
       price: 30.00,
       imageUrl:
           'https://th.bing.com/th/id/OIP.5fRJB0DfiQQ0t1IR20g4WQHaKC?pid=ImgDet&rs=1',
@@ -70,9 +70,14 @@ class AppData with ChangeNotifier {
     final prodIndex =
         _products.indexWhere((element) => element.id == product.id);
     if (prodIndex > 0) {
-    _products[product.id!] = product;
+      _products[product.id!] = product;
     }
-    print(product.id);
+
+    notifyListeners();
+  }
+
+  void deleteProduct(int index) {
+    _products.removeWhere((element) => element.id == index);
 
     notifyListeners();
   }
