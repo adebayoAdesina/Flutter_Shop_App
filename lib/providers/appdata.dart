@@ -54,7 +54,26 @@ class AppData with ChangeNotifier {
   ];
 
   void addProduct(Product product) {
-    _products.add(product);
+    _products.add(
+      Product(
+        id: _products.length + 1,
+        title: product.title,
+        description: product.description,
+        price: product.price,
+        imageUrl: product.imageUrl,
+      ),
+    );
+    notifyListeners();
+  }
+
+  void updateProduct(Product product) {
+    final prodIndex =
+        _products.indexWhere((element) => element.id == product.id);
+    if (prodIndex > 0) {
+    _products[product.id!] = product;
+    }
+    print(product.id);
+
     notifyListeners();
   }
 

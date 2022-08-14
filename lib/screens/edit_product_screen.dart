@@ -21,10 +21,10 @@ class _EditProductScreenState extends State<EditProductScreen> {
   Product editProduct = Product();
 
   Map _initValue = {
-    'id': num,
+    'id': '',
     'title': '',
     'description': '',
-    'price': null,
+    'price': '',
     'imageUrl': ''
   };
   @override
@@ -48,20 +48,21 @@ class _EditProductScreenState extends State<EditProductScreen> {
   @override
   void didChangeDependencies() {
     if (_isInit) {
-      final productId = ModalRoute.of(context)!.settings.arguments as int;
+      final productId = ModalRoute.of(context)!.settings.arguments;
       if (productId != null) {
         editProduct = context
             .watch<AppData>()
             .products
             .firstWhere((element) => element.id == productId);
         _initValue = {
-          'id': editProduct.id!,
+          'id': editProduct.id.toString(),
           'title': editProduct.title.toString(),
           'description': editProduct.description.toString(),
           'price': editProduct.price!.toString(),
           'imageUrl': ''
         };
         _imageUrlController.text = editProduct.imageUrl!;
+        print(editProduct.id.toString());
       }
     }
     _isInit = false;
@@ -81,13 +82,18 @@ class _EditProductScreenState extends State<EditProductScreen> {
       return;
     }
     _formGlobal.currentState!.save();
-    context.read<AppData>().addProduct(editProduct);
+    print(editProduct.id);
+    if (_initValue['id'] != '') {
+      context.read<AppData>().updateProduct(editProduct);
+    } else {
+      context.read<AppData>().addProduct(editProduct);
+    }
     Navigator.pop(context);
   }
 
   @override
   Widget build(BuildContext context) {
-    final productId = context.watch<AppData>().products.length;
+    // final productId = context.watch<AppData>().products.length;
     return Scaffold(
       appBar: AppBar(title: const Text('Edit Product'), actions: [
         IconButton(
@@ -119,7 +125,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
                 },
                 onChanged: (value) {
                   editProduct = Product(
-                    id: productId,
+                    id: editProduct.id,
+                    isFavorite: editProduct.isFavorite,
                     title: value,
                     price: editProduct.price,
                     description: editProduct.description,
@@ -156,7 +163,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
                 },
                 onChanged: (value) {
                   editProduct = Product(
-                    id: productId,
+                    id: editProduct.id,
+                    isFavorite: editProduct.isFavorite,
                     title: editProduct.title,
                     price: double.parse(value),
                     description: editProduct.description,
@@ -185,7 +193,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
                 },
                 onChanged: (value) {
                   editProduct = Product(
-                    id: productId,
+                    id: editProduct.id,
+                    isFavorite: editProduct.isFavorite,
                     title: editProduct.title,
                     price: editProduct.price,
                     description: value,
@@ -242,7 +251,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
                       },
                       onChanged: (value) {
                         editProduct = Product(
-                          id: productId,
+                          id: editProduct.id,
+                          isFavorite: editProduct.isFavorite,
                           title: editProduct.title,
                           price: editProduct.price,
                           description: editProduct.description,
