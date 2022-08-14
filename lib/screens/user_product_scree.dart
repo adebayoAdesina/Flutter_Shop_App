@@ -5,6 +5,7 @@ import 'package:shop_app/screens/edit_product_screen.dart';
 import 'package:shop_app/widgets/user_product_item.dart';
 
 import '../providers/product_model.dart';
+import '../widgets/app_drawer.dart';
 
 class UserProduct extends StatelessWidget {
   static const id = '/user-product';
@@ -14,6 +15,7 @@ class UserProduct extends StatelessWidget {
   Widget build(BuildContext context) {
     final product = context.watch<AppData>();
     return Scaffold(
+      drawer: const AppDrawer(),
       appBar: AppBar(
         title: const Text('Your Products'),
         actions: [
@@ -28,6 +30,7 @@ class UserProduct extends StatelessWidget {
           itemBuilder: (context, index) {
             Product currentProduct = product.products[index];
             return UserProductItem(
+              productId: currentProduct.id!,
               title: currentProduct.title!,
               imageUrl: currentProduct.imageUrl!,
             );

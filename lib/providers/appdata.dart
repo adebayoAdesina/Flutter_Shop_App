@@ -53,6 +53,11 @@ class AppData with ChangeNotifier {
     ),
   ];
 
+  void addProduct(Product product) {
+    _products.add(product);
+    notifyListeners();
+  }
+
   Product findProductById(int id) {
     return _products.firstWhere((element) => element.id == id);
   }

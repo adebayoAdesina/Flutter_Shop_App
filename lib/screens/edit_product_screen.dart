@@ -20,6 +20,13 @@ class _EditProductScreenState extends State<EditProductScreen> {
   final _formGlobal = GlobalKey<FormState>();
   Product editProduct = Product();
 
+  Map _initValue = {
+    'id': num,
+    'title': '',
+    'description': '',
+    'price': null,
+    'imageUrl': ''
+  };
   @override
   void dispose() {
     _priceFocusNode.dispose();
@@ -37,6 +44,30 @@ class _EditProductScreenState extends State<EditProductScreen> {
     _imageUrlFocusNode = FocusNode();
   }
 
+  bool _isInit = true;
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      final productId = ModalRoute.of(context)!.settings.arguments as int;
+      if (productId != null) {
+        editProduct = context
+            .watch<AppData>()
+            .products
+            .firstWhere((element) => element.id == productId);
+        _initValue = {
+          'id': editProduct.id!,
+          'title': editProduct.title.toString(),
+          'description': editProduct.description.toString(),
+          'price': editProduct.price!.toString(),
+          'imageUrl': ''
+        };
+        _imageUrlController.text = editProduct.imageUrl!;
+      }
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
+
   void _updateImageUrl() {
     if (!_imageUrlFocusNode.hasFocus) {
       setState(() {});
@@ -45,11 +76,13 @@ class _EditProductScreenState extends State<EditProductScreen> {
 
   void saveForm() {
     final isValid = _formGlobal.currentState!.validate();
+
     if (!isValid) {
       return;
     }
     _formGlobal.currentState!.save();
-    print(isValid);
+    context.read<AppData>().addProduct(editProduct);
+    Navigator.pop(context);
   }
 
   @override
@@ -69,6 +102,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
           child: ListView(
             children: [
               TextFormField(
+                initialValue: _initValue['title'],
                 decoration: InputDecoration(
                   label: const Text('Title'),
                   errorStyle: TextStyle(
@@ -94,6 +128,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                 },
               ),
               TextFormField(
+                initialValue: _initValue['price'],
                 decoration: InputDecoration(
                   label: const Text('Price'),
                   errorStyle: TextStyle(
@@ -108,7 +143,16 @@ class _EditProductScreenState extends State<EditProductScreen> {
                   FocusScope.of(context).requestFocus(_descriptionFocusNode);
                 },
                 validator: (value) {
-                  return value!.isEmpty ? 'Please input a Price.' : null;
+                  if (value!.isEmpty) {
+                    return 'Please input a Price.';
+                  }
+                  if (double.tryParse(value) == null) {
+                    return 'Please input a valid Price.';
+                  }
+                  if (double.parse(value) <= 0) {
+                    return 'Please enter a Price greater than 0.';
+                  }
+                  return null;
                 },
                 onChanged: (value) {
                   editProduct = Product(
@@ -121,6 +165,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                 },
               ),
               TextFormField(
+                initialValue: _initValue['description'],
                 decoration: InputDecoration(
                   label: const Text('Description'),
                   errorStyle: TextStyle(
@@ -186,9 +231,14 @@ class _EditProductScreenState extends State<EditProductScreen> {
                       focusNode: _imageUrlFocusNode,
                       onFieldSubmitted: (_) => saveForm(),
                       validator: (value) {
-                        return value!.isEmpty
-                            ? 'Please input a Image URL.'
-                            : null;
+                        if (value!.isEmpty) {
+                          return 'Please input a Image URL.';
+                        }
+                        if (!value.startsWith('http') &&
+                            !value.startsWith('https')) {
+                          return 'Please enter a valid URL';
+                        }
+                        return null;
                       },
                       onChanged: (value) {
                         editProduct = Product(
