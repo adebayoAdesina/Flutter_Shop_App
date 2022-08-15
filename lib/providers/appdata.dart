@@ -1,7 +1,8 @@
 import 'dart:collection';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
-
+import 'package:http/http.dart' as http;
 import 'product_model.dart';
 
 enum Show {
@@ -53,7 +54,19 @@ class AppData with ChangeNotifier {
     ),
   ];
 
-  void addProduct(Product product) {
+  void addProduct(Product product) async {
+    String url =
+        'https://shop-app-7c9ec-default-rtdb.firebaseio.com/product.json';
+    var value = jsonEncode({
+      'title': product.title,
+      'description': product.description,
+      'imageUrl': product.imageUrl,
+      'price': product.price,
+      'isFavorite': product.isFavorite
+    });
+    await http.post(Uri.parse(url), body: value);
+    // try {} catch (e) {}
+
     _products.add(
       Product(
         id: _products.length + 1,
