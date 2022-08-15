@@ -14,7 +14,7 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final product = context.watch<Product>();
-    final int id = product.id!;
+    final String id = product.id!;
     final String imageUrl = product.imageUrl!;
     final String title = product.title!;
     final double price = product.price!;
