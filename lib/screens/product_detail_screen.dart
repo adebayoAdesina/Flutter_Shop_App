@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,7 +9,7 @@ class ProductDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final productId = ModalRoute.of(context)!.settings.arguments as int;
+    final productId = ModalRoute.of(context)!.settings.arguments as String;
     final product = context.read<AppData>().findProductById(productId);
     return Scaffold(
       appBar: AppBar(
@@ -60,7 +58,6 @@ class ProductDetailScreen extends StatelessWidget {
               child: Text(
                 product.description.toString(),
                 softWrap: true,
-                
               ),
             )
           ],

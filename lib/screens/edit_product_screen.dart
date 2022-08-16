@@ -78,7 +78,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
 
   bool _isLoading = false;
 
-  void saveForm() {
+  Future<void> saveForm() async {
     final isValid = _formGlobal.currentState!.validate();
 
     if (!isValid) {
@@ -95,49 +95,47 @@ class _EditProductScreenState extends State<EditProductScreen> {
         Navigator.pop(context);
       });
     } else {
-      context.read<AppData>().addProduct(editProduct).then((value) {
+      try {
+        await context.read<AppData>().addProduct(editProduct);
         setState(() {
           _isLoading = false;
           Navigator.pop(context);
         });
-      }).catchError(
-        (error) {
-          setState(() {
-            _isLoading = false;
-          });
-          throw showDialog(
-            context: context,
-            builder: (context) => Dialog(
-              child: SizedBox(
-                height: 90,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'An error Occur',
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(
-                      height: 4.0,
-                    ),
-                    Icon(
-                      Icons.error,
-                      size: 45,
-                      color: Theme.of(context).colorScheme.error,
-                    )
-                  ],
-                ),
+      } catch (e) {
+        setState(() {
+          _isLoading = false;
+        });
+        throw showDialog(
+          context: context,
+          builder: (context) => Dialog(
+            child: SizedBox(
+              height: 90,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    'An error Occur',
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(
+                    height: 4.0,
+                  ),
+                  Icon(
+                    Icons.error,
+                    size: 45,
+                    color: Theme.of(context).colorScheme.error,
+                  )
+                ],
               ),
             ),
-          );
-        },
-      );
+          ),
+        );
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    // final productId = context.watch<AppData>().products.length;
     return Scaffold(
       appBar: AppBar(title: const Text('Edit Product'), actions: [
         IconButton(

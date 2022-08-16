@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/providers/cart.dart';
 import 'package:shop_app/screens/cart_screen.dart';
@@ -13,9 +14,29 @@ enum MoreIcon {
   showAll,
 }
 
-class ProductOviewViewScreen extends StatelessWidget {
+class ProductOviewViewScreen extends StatefulWidget {
   static const id = '/';
   const ProductOviewViewScreen({Key? key}) : super(key: key);
+
+  @override
+  State<ProductOviewViewScreen> createState() => _ProductOviewViewScreenState();
+}
+
+class _ProductOviewViewScreenState extends State<ProductOviewViewScreen> {
+  bool _isFetched = true;
+  @override
+  void initState() {
+    getProduct();
+    super.initState();
+  }
+
+  void getProduct() async {
+    await context.read<AppData>().fetchProduct();
+
+    setState(() {
+      _isFetched = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +76,8 @@ class ProductOviewViewScreen extends StatelessWidget {
         ],
       ),
       drawer: const AppDrawer(),
-      body: const ProductGrid(),
+      body:
+          ModalProgressHUD(inAsyncCall: _isFetched, child: const ProductGrid()),
     );
   }
 }
