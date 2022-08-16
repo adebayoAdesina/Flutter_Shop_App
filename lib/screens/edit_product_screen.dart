@@ -89,7 +89,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
       _isLoading = true;
     });
     if (_initValue['id'] != '') {
-      context.read<AppData>().updateProduct(editProduct);
+      await context.read<AppData>().updateProduct(editProduct);
       setState(() {
         _isLoading = false;
         Navigator.pop(context);

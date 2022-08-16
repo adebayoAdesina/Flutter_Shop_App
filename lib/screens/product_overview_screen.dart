@@ -29,7 +29,7 @@ class _ProductOviewViewScreenState extends State<ProductOviewViewScreen> {
     getProduct();
     super.initState();
   }
-
+  
   void getProduct() async {
     await context.read<AppData>().fetchProduct();
 
