@@ -36,8 +36,21 @@ class UserProductItem extends StatelessWidget {
               icon: const Icon(Icons.edit),
             ),
             IconButton(
-              onPressed: () =>
-                  context.read<AppData>().deleteProduct(productId),
+              onPressed: () async {
+                try {
+                  context.read<AppData>().deleteProduct(productId);
+                } catch (e) {
+                  showDialog(
+                    context: context,
+                    builder: (context) => const Dialog(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Deleting failed!',
+                      ),
+                    ),
+                  );
+                }
+              },
               icon: Icon(
                 Icons.delete,
                 color: Theme.of(context).colorScheme.error,

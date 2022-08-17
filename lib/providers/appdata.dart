@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shop_app/exception/http_exception.dart';
 import 'product_model.dart';
 
 enum Show {
@@ -134,7 +135,7 @@ class AppData with ChangeNotifier {
     }
   }
 
-  void deleteProduct(String index) {
+  Future<void> deleteProduct(String index) async {
     String url =
         'https://shop-app-7c9ec-default-rtdb.firebaseio.com/product/$index.json';
 
@@ -142,14 +143,20 @@ class AppData with ChangeNotifier {
         _products.indexWhere((element) => element.id == index);
     var existingProduct = _products[existingProductIndex];
     _products.removeAt(existingProductIndex);
-    http
+    final value = await http
         .delete(
-          Uri.parse(url),
-        )
-        .then((value) => existingProduct = Product())
-        .catchError((_) {
-      _products.insert(existingProductIndex, existingProduct);
-    });
+      Uri.parse(url),
+    );
+        // .then((value) {
+      if (value.statusCode >= 400) {
+        _products.insert(existingProductIndex, existingProduct);
+        notifyListeners();
+        throw HttpException('Could not delete product.');
+      }
+      existingProduct = Product();
+    // }).catchError((_) {
+      
+    // });
 
     notifyListeners();
   }
