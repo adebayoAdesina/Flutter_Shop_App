@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/exception/http_exception.dart';
 import 'package:shop_app/providers/auth.dart';
+import 'package:shop_app/screens/product_overview_screen.dart';
 
 enum AuthMode { signUp, logIn }
 
@@ -31,7 +32,7 @@ class AuthScreen extends StatelessWidget {
             ),
           ),
           SingleChildScrollView(
-            child: Container(
+            child: SizedBox(
               height: size.height,
               width: size.width,
               child: Column(
@@ -120,6 +121,7 @@ class _AuthCardState extends State<AuthCard> {
               _authData['password'] as String,
             );
       }
+      // Navigator.pushReplacementNamed(context, ProductOviewViewScreen.id);
     } on HttpException catch (e) {
       var errorMessage = 'Authentication failed';
       if (e.toString().contains('EMAIL_EXISTS')) {

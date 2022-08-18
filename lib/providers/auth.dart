@@ -8,6 +8,18 @@ class AuthMethod with ChangeNotifier {
   String? _token;
   DateTime? _expiryDate;
   String? _userId;
+  bool get isAuth {
+    return token != '';
+  }
+
+  String get token {
+    if (_expiryDate != null &&
+        _expiryDate!.isAfter(DateTime.now()) &&
+        _token != null) {
+      return _token!;
+    }
+    return '';
+  }
 
   Future<void> auths(String email, String password, String auth) async {
     String url =
@@ -27,9 +39,21 @@ class AuthMethod with ChangeNotifier {
         // print(responseCheck['error']['message']);
         throw HttpException(responseCheck['error']['message']);
       }
+      _token = responseCheck['idToken'];
+
+      _userId = responseCheck['localId'];
+      _expiryDate = DateTime.now().add(
+        Duration(
+          seconds: int.parse(
+            responseCheck['expiresIn'],
+          ),
+        ),
+      );
+      notifyListeners();
     } catch (e) {
       print(e.toString());
     }
+    notifyListeners();
   }
 
   Future<void> signUp(String email, String password) async {

@@ -6,6 +6,7 @@ import 'package:shop_app/providers/cart.dart';
 import 'package:shop_app/providers/orders.dart';
 import 'package:shop_app/routes/routes.dart';
 import 'package:shop_app/screens/auth_screen.dart';
+import 'package:shop_app/screens/product_overview_screen.dart';
 
 import 'constants/color.dart';
 
@@ -31,30 +32,33 @@ class MyApp extends StatelessWidget {
           create: (context) => Orders(),
         ),
         ChangeNotifierProvider(
-          create: (context) => AuthMethod()
+          create: (context) => AuthMethod(),
         ),
       ],
-      child: MaterialApp(
-        title: 'MyShopApp',
-        theme: ThemeData(
-          colorScheme: const ColorScheme(
-            brightness: Brightness.light,
-            primary: kPrimaryColor,
-            onPrimary: kWhiteColor,
-            secondary: kSecondaryColor,
-            onSecondary: kWhiteColor,
-            error: Colors.red,
-            onError: Colors.red,
-            background: kWhiteColor,
-            onBackground: kWhiteColor,
-            surface: kPrimaryColor,
-            onSurface: kPrimaryColor,
+      child: Consumer<AuthMethod>(
+        builder: (ctx, auth, _) => MaterialApp(
+          title: 'MyShopApp',
+          theme: ThemeData(
+            colorScheme: const ColorScheme(
+              brightness: Brightness.light,
+              primary: kPrimaryColor,
+              onPrimary: kWhiteColor,
+              secondary: kSecondaryColor,
+              onSecondary: kWhiteColor,
+              error: Colors.red,
+              onError: Colors.red,
+              background: kWhiteColor,
+              onBackground: kWhiteColor,
+              surface: kPrimaryColor,
+              onSurface: kPrimaryColor,
+            ),
+            fontFamily: 'Signika Negative',
           ),
-          fontFamily: 'Signika Negative',
+          // initialRoute: '/',
+          home: auth.isAuth ? ProductOviewViewScreen() : AuthScreen(),
+          // initialRoute: auth.isAuth ? ProductOviewViewScreen.id : AuthScreen.id,
+          // routes: routes,
         ),
-        // initialRoute: '/',
-        initialRoute: AuthScreen.id,
-        routes: routes,
       ),
     );
   }
