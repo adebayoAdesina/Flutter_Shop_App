@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_app/providers/auth.dart';
 import 'package:shop_app/providers/product_model.dart';
 import 'package:shop_app/providers/cart.dart';
 import 'package:shop_app/screens/product_detail_screen.dart';
@@ -42,7 +43,9 @@ class ProductCard extends StatelessWidget {
               backgroundColor: kGridTileBarColor,
               leading: IconButton(
                 onPressed: () {
-                  context.read<Product>().toggleFavoriteStatus();
+                  context
+                      .read<Product>()
+                      .toggleFavoriteStatus(context.watch<AuthMethod>().token);
                 },
                 icon: Icon(
                   Icons.favorite,

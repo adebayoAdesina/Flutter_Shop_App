@@ -12,6 +12,9 @@ enum Show {
 }
 
 class AppData with ChangeNotifier {
+  String? authToken;
+  AppData(this.authToken, UnmodifiableListView products);
+
   List<Product> _products = [];
   // Product(
   //   id: '1',
@@ -56,7 +59,7 @@ class AppData with ChangeNotifier {
 
   Future<void> fetchProduct() async {
     String url =
-        'https://shop-app-7c9ec-default-rtdb.firebaseio.com/product.json';
+        'https://shop-app-7c9ec-default-rtdb.firebaseio.com/product.json?auth=$authToken';
     // Map<String, dynamic> data = jsonDecode(response.body);
     var response = await http.get(Uri.parse(url));
     var data = jsonDecode(response.body);
@@ -84,7 +87,7 @@ class AppData with ChangeNotifier {
   Future<void> addProduct(Product product) async {
     String res = 'failed';
     String url =
-        'https://shop-app-7c9ec-default-rtdb.firebaseio.com/product.json';
+        'https://shop-app-7c9ec-default-rtdb.firebaseio.com/product.json?auth=$authToken';
     var value = jsonEncode({
       'title': product.title,
       'description': product.description,
@@ -118,7 +121,7 @@ class AppData with ChangeNotifier {
 
     if (prodIndex >= 0) {
       String url =
-          'https://shop-app-7c9ec-default-rtdb.firebaseio.com/product/${product.id}.json';
+          'https://shop-app-7c9ec-default-rtdb.firebaseio.com/product/${product.id}.json?auth=$authToken';
 
       final values = jsonEncode({
         'title': product.title,
@@ -136,25 +139,24 @@ class AppData with ChangeNotifier {
 
   Future<void> deleteProduct(String index) async {
     String url =
-        'https://shop-app-7c9ec-default-rtdb.firebaseio.com/product/$index.json';
+        'https://shop-app-7c9ec-default-rtdb.firebaseio.com/product/$index.json?auth=$authToken';
 
     var existingProductIndex =
         _products.indexWhere((element) => element.id == index);
     var existingProduct = _products[existingProductIndex];
     _products.removeAt(existingProductIndex);
-    final value = await http
-        .delete(
+    final value = await http.delete(
       Uri.parse(url),
     );
-        // .then((value) {
-      if (value.statusCode >= 400) {
-        _products.insert(existingProductIndex, existingProduct);
-        notifyListeners();
-        throw HttpException('Could not delete product.');
-      }
-      existingProduct = Product();
+    // .then((value) {
+    if (value.statusCode >= 400) {
+      _products.insert(existingProductIndex, existingProduct);
+      notifyListeners();
+      throw HttpException('Could not delete product.');
+    }
+    existingProduct = Product();
     // }).catchError((_) {
-      
+
     // });
 
     notifyListeners();

@@ -10,10 +10,10 @@ class Orders with ChangeNotifier {
 
   List<OrderItem> get orders => _orders;
 
-  Future<void> orderNow(List<CartItem> item, double amount) async {
+  Future<void> orderNow(List<CartItem> item, double amount, String token) async {
     final timeStamp = DateTime.now();
     String url =
-        'https://shop-app-7c9ec-default-rtdb.firebaseio.com/order.json';
+        'https://shop-app-7c9ec-default-rtdb.firebaseio.com/order.json?auth=$token';
     final value = jsonEncode({
       'amount': amount,
       'time': timeStamp.toIso8601String(),
@@ -44,9 +44,9 @@ class Orders with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> fetchOrders() async {
+  Future<void> fetchOrders(String token) async {
     String url =
-        'https://shop-app-7c9ec-default-rtdb.firebaseio.com/order.json';
+        'https://shop-app-7c9ec-default-rtdb.firebaseio.com/order.json?auth=$token';
     var response = await http.get(Uri.parse(url));
 
     var data = jsonDecode(response.body) as Map<String, dynamic>;

@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/providers/appdata.dart';
@@ -23,16 +25,18 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (context) => AppData(),
+          create: (context) => AuthMethod(),
+        ),
+        ChangeNotifierProxyProvider<AuthMethod, AppData>(
+          update: (context, value, previous) =>
+              AppData(value.token, previous!.products),
+          create: (context) => AppData('Hello', UnmodifiableListView([])),
         ),
         ChangeNotifierProvider(
           create: (context) => Cart(),
         ),
         ChangeNotifierProvider(
           create: (context) => Orders(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => AuthMethod(),
         ),
       ],
       child: Consumer<AuthMethod>(
@@ -55,9 +59,9 @@ class MyApp extends StatelessWidget {
             fontFamily: 'Signika Negative',
           ),
           // initialRoute: '/',
-          home: auth.isAuth ? ProductOviewViewScreen() : AuthScreen(),
-          // initialRoute: auth.isAuth ? ProductOviewViewScreen.id : AuthScreen.id,
-          // routes: routes,
+          // home: auth.isAuth ? ProductOviewViewScreen() : AuthScreen(),
+          initialRoute: auth.isAuth ? ProductOviewViewScreen.id : AuthScreen.id,
+          routes: routes,
         ),
       ),
     );

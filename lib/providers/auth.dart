@@ -44,7 +44,7 @@ class AuthMethod with ChangeNotifier {
       _userId = responseCheck['localId'];
       _expiryDate = DateTime.now().add(
         Duration(
-          seconds: int.parse(
+          seconds : int.parse(
             responseCheck['expiresIn'],
           ),
         ),

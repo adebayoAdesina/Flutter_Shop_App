@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_app/providers/auth.dart';
 import 'package:shop_app/providers/orders.dart';
 import 'package:shop_app/widgets/order_item.dart';
 
@@ -18,7 +19,10 @@ class _OrderScreenState extends State<OrderScreen> {
   bool _isLoading = true;
 
   void getCarts() async {
-    await context.read<Orders>().fetchOrders().then(
+    await context
+        .read<Orders>()
+        .fetchOrders(context.watch<AuthMethod>().token)
+        .then(
           (value) => setState(
             () {
               _isLoading = false;
@@ -35,7 +39,9 @@ class _OrderScreenState extends State<OrderScreen> {
       ),
       drawer: const AppDrawer(),
       body: FutureBuilder(
-          future: context.read<Orders>().fetchOrders(),
+          future: context
+              .read<Orders>()
+              .fetchOrders(context.watch<AuthMethod>().token),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               _isLoading = false;

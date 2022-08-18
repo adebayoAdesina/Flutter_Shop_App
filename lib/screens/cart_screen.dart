@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_app/providers/auth.dart';
 import 'package:shop_app/providers/cart.dart';
 import 'package:shop_app/providers/orders.dart';
 import 'package:shop_app/screens/order_screen.dart';
@@ -95,11 +96,12 @@ class _OrderButtonState extends State<OrderButton> {
       onPressed: widget.cart.cart!.values.isEmpty
           ? null
           : () async {
-              setState(() {
-                _isLoadings = true;
-              });
+              setState(() {});
               await context.read<Orders>().orderNow(
-                  widget.cart.cart!.values.toList(), widget.cart.totalAmount);
+                    widget.cart.cart!.values.toList(),
+                    widget.cart.totalAmount,
+                    context.watch<AuthMethod>().token,
+                  );
               setState(() {
                 _isLoadings = false;
               });
