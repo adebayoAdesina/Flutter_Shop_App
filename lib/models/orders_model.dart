@@ -1,7 +1,7 @@
 import 'package:shop_app/models/cart_item_model.dart';
 
 class OrderItem {
-  int? id;
+  String? id;
   double? amount;
   List<CartItem>? products;
   DateTime? time;

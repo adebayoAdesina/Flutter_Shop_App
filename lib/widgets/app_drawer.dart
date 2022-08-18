@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/screens/order_screen.dart';
 import 'package:shop_app/screens/product_overview_screen.dart';
 import 'package:shop_app/screens/user_product_scree.dart';
 import 'package:shop_app/constants/color.dart';
@@ -32,8 +33,8 @@ class AppDrawer extends StatelessWidget {
             textColor: kWhiteColor,
             leading: const Icon(Icons.payment),
             title: const Text('Orders'),
-            onTap: () => Navigator.of(context)
-                .pushReplacementNamed(ProductOviewViewScreen.id),
+            onTap: () =>
+                Navigator.of(context).pushReplacementNamed(OrderScreen.id),
           ),
           const Divider(),
           ListTile(
@@ -41,8 +42,8 @@ class AppDrawer extends StatelessWidget {
             textColor: kWhiteColor,
             leading: const Icon(Icons.edit),
             title: const Text('Manage Product'),
-            onTap: () => Navigator.of(context)
-                .pushReplacementNamed(UserProduct.id),
+            onTap: () =>
+                Navigator.of(context).pushReplacementNamed(UserProduct.id),
           )
         ],
       ),
