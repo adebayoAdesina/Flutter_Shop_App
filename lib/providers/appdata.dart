@@ -128,7 +128,6 @@ class AppData with ChangeNotifier {
       });
       await http.patch(Uri.parse(url), body: values);
       _products[prodIndex] = product;
-      print('${_products.toList()} /n');
       notifyListeners();
     } else {
       return;
