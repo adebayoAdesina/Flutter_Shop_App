@@ -58,9 +58,9 @@ class MyApp extends StatelessWidget {
             ),
             fontFamily: 'Signika Negative',
           ),
-          // initialRoute: '/',
-          // home: auth.isAuth ? ProductOviewViewScreen() : AuthScreen(),
+          
           initialRoute: auth.isAuth ? ProductOviewViewScreen.id : AuthScreen.id,
+          // initialRoute: ProductOviewViewScreen.id ,
           routes: routes,
         ),
       ),

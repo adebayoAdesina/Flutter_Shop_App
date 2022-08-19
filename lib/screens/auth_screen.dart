@@ -93,6 +93,7 @@ class _AuthCardState extends State<AuthCard>
   final _passwordController = TextEditingController();
   AnimationController? animationController;
   Animation<Size>? animation;
+  Animation<double>? opacityAnimation;
 
   @override
   void initState() {
@@ -112,6 +113,8 @@ class _AuthCardState extends State<AuthCard>
         curve: Curves.easeInExpo,
       ),
     );
+    opacityAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+        CurvedAnimation(parent: animationController!, curve: Curves.bounceOut));
     // animation!.addListener(() {
     //   setState(() {});
     // });
@@ -238,20 +241,30 @@ class _AuthCardState extends State<AuthCard>
                     _authData['password'] = value!;
                   },
                 ),
-                if (_authMode == AuthMode.signUp)
-                  TextFormField(
-                    enabled: _authMode == AuthMode.signUp,
-                    decoration:
-                        const InputDecoration(labelText: 'Confirm Password'),
-                    obscureText: true,
-                    validator: _authMode == AuthMode.signUp
-                        ? (value) {
-                            if (value != _passwordController.text) {
-                              return 'Passwords do not match!';
+                // if (_authMode == AuthMode.signUp)
+                AnimatedContainer(
+                  constraints: BoxConstraints(
+                      minHeight: _authMode == AuthMode.signUp ? 60 : 0,
+                      maxHeight: _authMode == AuthMode.signUp ? 120 : 0),
+                  duration: const Duration(milliseconds: 300),
+                  child: FadeTransition(
+                    opacity: opacityAnimation!,
+                    alwaysIncludeSemantics: true,
+                    child: TextFormField(
+                      enabled: _authMode == AuthMode.signUp,
+                      decoration:
+                          const InputDecoration(labelText: 'Confirm Password'),
+                      obscureText: true,
+                      validator: _authMode == AuthMode.signUp
+                          ? (value) {
+                              if (value != _passwordController.text) {
+                                return 'Passwords do not match!';
+                              }
                             }
-                          }
-                        : null,
+                          : null,
+                    ),
                   ),
+                ),
                 const SizedBox(
                   height: 20.0,
                 ),

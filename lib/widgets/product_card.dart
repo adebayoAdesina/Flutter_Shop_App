@@ -30,12 +30,15 @@ class ProductCard extends StatelessWidget {
           arguments: id,
         ),
         child: GridTile(
-          child: CachedNetworkImage(
-            fit: BoxFit.cover,
-            errorWidget: (context, url, error) => const Center(
-              child: CircularProgressIndicator(),
+          child: Hero(
+            tag:  'product',
+            child: CachedNetworkImage(
+              fit: BoxFit.cover,
+              errorWidget: (context, url, error) => const Center(
+                child: CircularProgressIndicator(),
+              ),
+              imageUrl: imageUrl,
             ),
-            imageUrl: imageUrl,
           ),
           footer: ClipRRect(
             borderRadius: borderRadius(),
