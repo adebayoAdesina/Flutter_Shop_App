@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/exception/http_exception.dart';
 import 'package:shop_app/providers/auth.dart';
-import 'package:shop_app/screens/product_overview_screen.dart';
 
 enum AuthMode { signUp, logIn }
 
@@ -66,7 +65,7 @@ class AuthScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Flexible(flex: size.width > 600 ? 2 : 1, child: AuthCard())
+                  Flexible(flex: size.width > 600 ? 2 : 1, child: const AuthCard())
                 ],
               ),
             ),
@@ -88,7 +87,7 @@ class _AuthCardState extends State<AuthCard>
     with SingleTickerProviderStateMixin {
   final formKey = GlobalKey<FormState>();
   AuthMode _authMode = AuthMode.logIn;
-  Map<String, String> _authData = {'email': '', 'password': ''};
+  final Map<String, String> _authData = {'email': '', 'password': ''};
   bool _isLoading = false;
   final _passwordController = TextEditingController();
   AnimationController? animationController;
@@ -149,11 +148,13 @@ class _AuthCardState extends State<AuthCard>
         await context.read<AuthMethod>().signUp(
               _authData['email'] as String,
               _authData['password'] as String,
+              context
             );
       } else {
         await context.read<AuthMethod>().signin(
               _authData['email'] as String,
               _authData['password'] as String,
+              context
             );
       }
       // Navigator.pushReplacementNamed(context, ProductOviewViewScreen.id);

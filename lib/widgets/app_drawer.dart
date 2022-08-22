@@ -38,13 +38,13 @@ class AppDrawer extends StatelessWidget {
           ),
           const Divider(),
           ListTile(
-            iconColor: kWhiteColor,
-            textColor: kWhiteColor,
-            leading: const Icon(Icons.edit),
-            title: const Text('Manage Product'),
-            onTap: () =>
-                Navigator.of(context).pushReplacementNamed(UserProduct.id),
-          )
+              iconColor: kWhiteColor,
+              textColor: kWhiteColor,
+              leading: const Icon(Icons.edit),
+              title: const Text('Manage Product'),
+              onTap: () => 
+              Navigator.of(context).pushReplacementNamed(UserProduct.id),
+              )
         ],
       ),
     );

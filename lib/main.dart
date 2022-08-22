@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/providers/appdata.dart';
@@ -16,9 +14,14 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -28,10 +31,13 @@ class MyApp extends StatelessWidget {
           create: (context) => AuthMethod(),
         ),
         ChangeNotifierProxyProvider<AuthMethod, AppData>(
-          update: (context, value, previous) =>
-              AppData(value.token, previous!.products),
-          create: (context) => AppData('Hello', UnmodifiableListView([])),
+          create: (_) => AppData('', []),
+          update: (context, value, previous) => AppData(
+              value.token, previous!.products.isEmpty ? [] : previous.products),
         ),
+        // ChangeNotifierProvider(
+        //   create : (context) => AppData()
+        // ),
         ChangeNotifierProvider(
           create: (context) => Cart(),
         ),
@@ -40,7 +46,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: Consumer<AuthMethod>(
-        builder: (ctx, auth, _) => MaterialApp(
+        builder: (ctx, auth, child) => MaterialApp(
           title: 'MyShopApp',
           theme: ThemeData(
             colorScheme: const ColorScheme(
@@ -58,8 +64,9 @@ class MyApp extends StatelessWidget {
             ),
             fontFamily: 'Signika Negative',
           ),
-          
-          initialRoute: auth.isAuth ? ProductOviewViewScreen.id : AuthScreen.id,
+        
+          initialRoute:
+              auth.isAuth ?  ProductOviewViewScreen.id : AuthScreen.id,
           // initialRoute: ProductOviewViewScreen.id ,
           routes: routes,
         ),

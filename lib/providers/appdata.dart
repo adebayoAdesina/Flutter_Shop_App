@@ -1,4 +1,3 @@
-import 'dart:collection';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -12,8 +11,8 @@ enum Show {
 }
 
 class AppData with ChangeNotifier {
-  String? authToken;
-  AppData(this.authToken, UnmodifiableListView products);
+  String authToken = '';
+  AppData(this.authToken, this._products);
 
   List<Product> _products = [];
   // Product(
@@ -168,12 +167,12 @@ class AppData with ChangeNotifier {
 
   bool _showFavorites = false;
 
-  UnmodifiableListView get products {
-    if (_showFavorites == true) {
-      return UnmodifiableListView(
-          _products.where((element) => element.isFavorite).toList());
-    }
-    return UnmodifiableListView(_products);
+  List<Product> get products {
+    // if (_showFavorites == true) {
+    //   return
+    //       _products.where((element) => element.isFavorite).toList();
+    // }
+    return [..._products];
   }
 
   void show(Show show) {
