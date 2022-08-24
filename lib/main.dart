@@ -33,11 +33,8 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProxyProvider<AuthMethod, AppData>(
           create: (_) => AppData('', []),
           update: (context, value, previous) => AppData(
-              value.token, previous!.products.isEmpty ? [] : previous.products),
+              value.token, previous!.products.isEmpty ? [] : previous.products,),
         ),
-        // ChangeNotifierProvider(
-        //   create : (context) => AppData()
-        // ),
         ChangeNotifierProvider(
           create: (context) => Cart(),
         ),
